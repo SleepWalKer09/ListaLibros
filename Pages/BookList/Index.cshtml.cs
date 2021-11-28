@@ -24,5 +24,18 @@ namespace ListaLibros.Pages.BookList
         {
             libros = await _db.libro.ToListAsync();
         }
+
+        public async Task<IActionResult> OnPostDelete(int id)
+        {
+            var libro = await _db.libro.FindAsync(id);
+            if(libro == null)
+            {
+                return NotFound();
+            }
+            _db.libro.Remove(libro);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage("Index");
+        }
     }
 }
